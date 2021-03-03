@@ -4,7 +4,9 @@
 
 A revamp of [Canelex's Pack Display Mod](https://www.youtube.com/watch?v=LeDNOdOdGyk) with some extra features
 
-<hr/>
+![LICENSE](https://img.shields.io/github/license/1fxe/Resource-Pack-Display?style=flat-square)
+![VERSION](https://img.shields.io/github/v/release/1fxe/Resource-Pack-Display?style=flat-square)
+![ISSUES](https://img.shields.io/github/issues/1fxe/Resource-Pack-Display?style=flat-square)
 
 </div>
 
