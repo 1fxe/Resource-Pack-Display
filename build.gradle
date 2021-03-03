@@ -6,7 +6,6 @@ buildscript {
             url = "http://files.minecraftforge.net/maven"
         }
 
-        // search through the 'libs' folder
         flatDir dirs: 'libs'
     }
     dependencies {
@@ -17,8 +16,8 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "1.0"
-group= "club.sk1er"
-archivesBaseName = "ModCore Container"
+group= "dev.fxe"
+archivesBaseName = "Resource Pack Display"
 sourceCompatibility = targetCompatibility = 1.8
 
 minecraft {
@@ -54,8 +53,8 @@ processResources {
 
 jar {
     manifest {
-        attributes "FMLCorePlugin": "club.sk1er.mods.modcoreexample.forge.FMLLoadingPlugin",
+        attributes "FMLCorePlugin": "dev.fxe.mods.resourcepackdisplay.modcore.forge.FMLLoadingPlugin",
                 "ModSide": "CLIENT",
-                "FMLCorePluginContainsFMLMod": "Yes, yes it does"
+                "FMLCorePluginContainsFMLMod": true
     }
 }
