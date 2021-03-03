@@ -51,6 +51,8 @@ import java.util.List;
  */
 public class UI {
     private static final int imageWidth = 32;
+    private static final int textPadding = 5;
+
     public static UI instance;
     private final Minecraft mc = Minecraft.getMinecraft();
     private final ResourcePackRepository resourcePackRepository = mc.getResourcePackRepository();
@@ -71,21 +73,22 @@ public class UI {
         IResourcePack currentPack = UI.instance.getCurrentPack();
         int x = Config.x;
         int y = Config.y;
-        int padding = 5;
+        final boolean pad = Config.hasPadding;
+        int padding = pad ? 5 : 0;
         int height = 10;
         int offset = Config.displayPackIcon ? x + imageWidth + padding : x;
-
+        int yOffset = 2;
         if (Config.displayPackName) {
             height += 9;
+
             UI.instance.fontRenderer.drawString(currentPack.getPackName(),
-                offset + padding, y + padding,
+                offset + textPadding, y + padding + yOffset,
                 0xffffff);
         }
-        int yOffset = 11;
-
+        yOffset += 9;
         if (Config.displayPackDescription) {
             height += 9;
-            UI.instance.fontRenderer.drawString(UI.instance.getPackDescription(currentPack), offset + padding,
+            UI.instance.fontRenderer.drawString(UI.instance.getPackDescription(currentPack), offset + textPadding,
                 y + yOffset + padding,
                 0xffffff);
             yOffset += 11;
@@ -94,19 +97,19 @@ public class UI {
             height += 9;
             String size = UI.instance.getPackSize(currentPack);
             if (!size.equalsIgnoreCase(""))
-                UI.instance.fontRenderer.drawString("Size: " + size, offset + padding, y + yOffset + padding,
+                UI.instance.fontRenderer.drawString("Size: " + size, offset + textPadding, y + yOffset + padding,
                     0xffffff);
         }
 
         if (Config.displayPackIcon) {
-            height = 39;
+            height = pad ? 32 + padding + 4 : 31;
             GlStateManager.color(1F, 1F, 1F, 1f);
             UI.instance.drawPackPng(padding);
         }
 
         if (Config.displayBackground) {
             GlStateManager.translate(1.0, 1.0, -100);
-            Gui.drawRect(x, y, offset + UI.instance.getWidth() + 10, y + height, Integer.MIN_VALUE);
+            Gui.drawRect(x - 1, y - 1, offset + UI.instance.getWidth() + 10, y + height, Integer.MIN_VALUE);
             GlStateManager.translate(1.0, 1.0, 0);
         }
 

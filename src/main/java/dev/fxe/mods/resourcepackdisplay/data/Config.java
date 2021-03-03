@@ -75,6 +75,10 @@ public class Config extends Vigilant {
         category = "GUI")
     public static boolean displayPackSize;
 
+    @Property(
+        type = PropertyType.SWITCH, name = "Pad the sides",
+        category = "GUI")
+    public static boolean hasPadding;
 
     @Property(type = PropertyType.NUMBER, name = "x", category = "GUI", hidden = true)
     public static int x = 0;

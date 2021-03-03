@@ -22,7 +22,7 @@ It might look something like this:
 ![Closer look](.github/closer.png)
 
 <details>
-  <summary>Click here to a another example</summary>
+  <summary>Click here to see a another example</summary>
 
 ![Example](.github/rdp.png)
 
