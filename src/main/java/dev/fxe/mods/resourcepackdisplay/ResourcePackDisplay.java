@@ -56,7 +56,7 @@ public class ResourcePackDisplay {
 
     public static final String MOD_ID = "resource_pack_display";
     public static final String MOD_NAME = "Resource Pack Display";
-    public static final String VERSION = "1.0";
+    public static final String VERSION = "1.2-Beta";
     @Mod.Instance(MOD_ID)
     public static ResourcePackDisplay INSTANCE;
     public final HashSet<ResourcePackRepository.Entry> randomPacks = new HashSet<>();
