@@ -80,6 +80,22 @@ public class Config extends Vigilant {
         category = "GUI")
     public static boolean hasPadding;
 
+
+    @Property(
+        type = PropertyType.SWITCH, name = "Random Pack Notification",
+        category = "Extra")
+    public static boolean notify = true;
+
+    @Property(
+        type = PropertyType.SWITCH, name = "Random Pack Chat message Notification",
+        category = "Extra")
+    public static boolean chatNotification = false;
+
+    @Property(
+        type = PropertyType.SLIDER, name = "Notification Delay",
+        min = 500, max = 2000, category = "Extra")
+    public static int notifDelay = 1000;
+
     @Property(type = PropertyType.NUMBER, name = "x", category = "GUI", hidden = true)
     public static int x = 0;
 

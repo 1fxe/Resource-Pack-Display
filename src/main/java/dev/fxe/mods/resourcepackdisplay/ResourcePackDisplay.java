@@ -39,6 +39,7 @@ import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -88,11 +89,11 @@ public class ResourcePackDisplay {
         final ResourcePackRepository.Entry entry = this.randomPack();
         final String packName = entry.getResourcePackName();
         if (this.randomPacks.contains(entry)) {
-            Notifications.INSTANCE.pushNotification(MOD_NAME, "Duplicate pack selected: " + packName);
+            Notifications.INSTANCE.pushNotification(MOD_NAME, EnumChatFormatting.RED + "Duplicate pack selected: " + EnumChatFormatting.RESET+ packName);
             sendRandomPrompt();
         } else if (entry.func_183027_f() != 1) {
             Notifications.INSTANCE.pushNotification(MOD_NAME,
-                "Resource pack is not compatible! " + packName);
+                EnumChatFormatting.RED + "Resource pack is not compatible! " + EnumChatFormatting.RESET + packName);
             sendRandomPrompt();
         } else {
             this.randomPacks.add(entry);
@@ -106,13 +107,19 @@ public class ResourcePackDisplay {
             ListenableFuture<Object> future = mc.scheduleResourcesRefresh();
             Multithreading.runAsync(() -> {
                 while (!future.isDone()) ;
+                long delay = Config.notifDelay;
                 try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ignored) {}
+                    Thread.sleep(delay);
+                } catch (InterruptedException ignored) {
+                }
                 long end = System.currentTimeMillis();
-                Notifications.INSTANCE.pushNotification(MOD_NAME,
-                    "Minecraft took " + ((end-1000) - start) / 1000 + "s to load " + packName
-                );
+                String msg = "Minecraft took " + ((end - delay) - start) / 1000 + "s to load " + packName;
+                if (Config.notify) {
+                    Notifications.INSTANCE.pushNotification(MOD_NAME, msg);
+                }
+                if (Config.chatNotification) {
+                    sendMessage(msg);
+                }
             });
         }
     }
@@ -151,4 +158,12 @@ public class ResourcePackDisplay {
         return resourcePackListEntryList.get(random.nextInt(resourcePackListEntryList.size()));
     }
 
+    public void displaySelectedPacks() {
+        StringBuilder packs = new StringBuilder();
+        packs.append("All previously loaded packs").append("\n");
+        for (ResourcePackRepository.Entry randomPack : randomPacks) {
+            packs.append(randomPack.getResourcePackName()).append("\n");
+        }
+        sendMessage(packs.toString());
+    }
 }

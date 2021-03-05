@@ -42,4 +42,5 @@ If you do not know how to install a Forge mod, then we recommended looking up "H
      gui    - Opens a GUI so you can drag the display to your preferred location
      random - Chooses a random resource pack from your game and sets it
      reset  - Resets the random resource pack duplicates list
+     show   - Displays all randomly loadded resource packs
 ```

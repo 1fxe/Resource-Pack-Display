@@ -29,7 +29,7 @@ public class Command extends CommandBase {
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "/" + getCommandName() + "\n<random>\n<gui>\n<reset>";
+        return "/" + getCommandName() + "\n<random>\n<gui>\n<reset>\n<show>";
     }
 
     @Override
@@ -44,6 +44,8 @@ public class Command extends CommandBase {
             } else if (args[0].equalsIgnoreCase("reset")) {
                 ResourcePackDisplay.INSTANCE.randomPacks.clear();
                 ResourcePackDisplay.INSTANCE.sendMessage("&cCleared Duplicate Checker");
+            } else if (args[0].equalsIgnoreCase("show")) {
+                ResourcePackDisplay.INSTANCE.displaySelectedPacks();
             } else {
                 ResourcePackDisplay.INSTANCE.sendMessage("&cIncorrect arguments. Command usage is: " + getCommandUsage(sender));
             }
