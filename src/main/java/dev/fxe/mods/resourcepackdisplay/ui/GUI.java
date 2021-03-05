@@ -44,7 +44,6 @@ public class GUI extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         updatePos(mouseX, mouseY);
-        UI.drawPackDisplay();
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 

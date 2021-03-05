@@ -5,31 +5,52 @@ buildscript {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-
-        flatDir dirs: 'libs'
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'kotlin'
+apply plugin: 'com.github.johnrengelman.shadow'
 
-version = "1.0"
-group= "dev.fxe"
-archivesBaseName = "Resource Pack Display"
+version = modVersion
+group = modGroup
+archivesBaseName = modBaseName
 sourceCompatibility = targetCompatibility = 1.8
 
 minecraft {
-    version = "1.8.9-11.15.1.2318-1.8.9"
+    version = project.forgeVersion
     runDir = "run"
-    mappings = "stable_22"
+    mappings = project.mcpVersion
     makeObfSourceJar = false
+    clientRunArgs += "--tweakClass ${project.tweakClass}"
+}
+
+configurations {
+    embed
+    implementation.extendsFrom(embed)
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.sk1er.club/repository/maven-public" }
+    maven { url "https://jitpack.io" }
+    maven { url "https://repo.spongepowered.org/maven" }
 }
 
 dependencies {
-    // include modcore as a dependency
-    provided files("libs/modcore.jar")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.72")
+    embed("net.modcore:Loader:2.0.0")
+    implementation("net.modcore:ModCore:780-10809-SNAPSHOT"){
+        exclude module: 'asm-commons'
+        exclude module: 'asm-tree'
+        exclude module: 'asm'
+        exclude module: 'mixin'
+    }
 }
 
 processResources {
@@ -51,10 +72,23 @@ processResources {
     }
 }
 
-jar {
-    manifest {
-        attributes "FMLCorePlugin": "dev.fxe.mods.resourcepackdisplay.modcore.forge.FMLLoadingPlugin",
-                "ModSide": "CLIENT",
-                "FMLCorePluginContainsFMLMod": true
+shadowJar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    configurations = [project.configurations.embed]
+    classifier ''
+
+    manifest.attributes(
+            "TweakClass": "${project.tweakClass}",
+            "TweakOrder": "0"
+    )
+}
+task moveResources {
+    doLast {
+        ant.move file: "${buildDir}/resources/main",
+                todir: "${buildDir}/classes/java"
     }
 }
+moveResources.dependsOn processResources
+classes.dependsOn moveResources
+
+reobfJar.dependsOn shadowJar
