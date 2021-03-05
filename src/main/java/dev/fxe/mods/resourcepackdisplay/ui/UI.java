@@ -52,14 +52,13 @@ import java.util.List;
 public class UI {
     private static final int imageWidth = 32;
     private static final int textPadding = 5;
-
     public static UI instance;
     private final Minecraft mc = Minecraft.getMinecraft();
     private final ResourcePackRepository resourcePackRepository = mc.getResourcePackRepository();
     private final FontRenderer fontRenderer = mc.fontRendererObj;
     private final HashMap<String, String> packSize = new HashMap<>();
-    //    private static final HashMap<String, ResourceLocation> packTexture = new HashMap<>();
     private final ShaderManager shaderManager = new ShaderManager(Shaders.vert, Shaders.frag);
+    private final List<ResourcePackRepository.Entry> packs = resourcePackRepository.getRepositoryEntries();
     private ResourceLocation currentPack;
 
     public UI() {
@@ -80,7 +79,6 @@ public class UI {
         int yOffset = 2;
         if (Config.displayPackName) {
             height += 9;
-
             UI.instance.fontRenderer.drawString(currentPack.getPackName(),
                 offset + textPadding, y + padding + yOffset,
                 0xffffff);
@@ -95,10 +93,8 @@ public class UI {
         }
         if (Config.displayPackSize) {
             height += 9;
-            String size = UI.instance.getPackSize(currentPack);
-            if (!size.equalsIgnoreCase(""))
-                UI.instance.fontRenderer.drawString("Size: " + size, offset + textPadding, y + yOffset + padding,
-                    0xffffff);
+            UI.instance.fontRenderer.drawString("Size: " + UI.instance.getPackSize(currentPack), offset + textPadding, y + yOffset + padding,
+                0xffffff);
         }
 
         if (Config.displayPackIcon) {
@@ -158,8 +154,6 @@ public class UI {
     }
 
     private IResourcePack getCurrentPack() {
-        List<ResourcePackRepository.Entry> packs =
-            resourcePackRepository.getRepositoryEntries();
         return packs.size() > 0 ? packs.get(0).getResourcePack() :
             mc.mcDefaultResourcePack;
     }

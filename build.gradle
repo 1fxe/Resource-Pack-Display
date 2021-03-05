@@ -15,15 +15,15 @@ buildscript {
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "1.0"
-group= "dev.fxe"
-archivesBaseName = "Resource Pack Display"
+version = project.version
+group= project.modGroup
+archivesBaseName = project.archivesBaseName
 sourceCompatibility = targetCompatibility = 1.8
 
 minecraft {
-    version = "1.8.9-11.15.1.2318-1.8.9"
+    version = project.forgeVersion
     runDir = "run"
-    mappings = "stable_22"
+    mappings = project.mcpVersion
     makeObfSourceJar = false
 }
 

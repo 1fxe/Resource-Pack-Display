@@ -78,7 +78,7 @@ public class ResourcePackDisplay {
     }
 
     public void sendMessage(String message) {
-        MinecraftUtils.sendMessage(ChatColor.BLUE + "[RDP] ",
+        MinecraftUtils.sendMessage(ChatColor.BLUE + "[RPD] ",
             ChatColor.translateAlternateColorCodes('&', message));
     }
 
@@ -106,16 +106,19 @@ public class ResourcePackDisplay {
             ListenableFuture<Object> future = mc.scheduleResourcesRefresh();
             Multithreading.runAsync(() -> {
                 while (!future.isDone()) ;
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ignored) {}
                 long end = System.currentTimeMillis();
                 Notifications.INSTANCE.pushNotification(MOD_NAME,
-                    "Minecraft took " + (end - start) / 1000 + "s to load " + packName
+                    "Minecraft took " + ((end-1000) - start) / 1000 + "s to load " + packName
                 );
             });
         }
     }
 
     private void sendRandomPrompt() {
-        ChatComponentText text = new ChatComponentText(ChatColor.BLUE + "[RDP] " +
+        ChatComponentText text = new ChatComponentText(ChatColor.BLUE + "[RPD] " +
             ChatColor.RESET + "Select a new pack?");
         ChatComponentText childComponent = new ChatComponentText(ChatColor.BLACK + " [" + ChatColor.GREEN +
             "Random" + ChatColor.BLACK + "] " + ChatColor.RESET);
@@ -123,8 +126,8 @@ public class ResourcePackDisplay {
             "Reset" + ChatColor.BLACK + "] " + ChatColor.RESET);
         ChatStyle chatStyle = new ChatStyle();
         ChatStyle chatStyleTwo = new ChatStyle();
-        final String cmd = "/rdp random";
-        final String cmd2 = "/rdp reset";
+        final String cmd = "/rpd random";
+        final String cmd2 = "/rpd reset";
         chatStyle.setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, cmd));
         chatStyle.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ChatComponentText(cmd)));
         chatStyleTwo.setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, cmd2));

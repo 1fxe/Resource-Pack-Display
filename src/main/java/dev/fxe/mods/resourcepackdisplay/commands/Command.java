@@ -24,7 +24,7 @@ public class Command extends CommandBase {
 
     @Override
     public String getCommandName() {
-        return "rdp";
+        return "rpd";
     }
 
     @Override

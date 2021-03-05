@@ -1,6 +1,6 @@
 <div align="center">
 
-# Resource Pack Display Revamp
+# Resource Pack Display
 
 A revamp of [Canelex's Pack Display Mod](https://www.youtube.com/watch?v=LeDNOdOdGyk) with some extra features
 
@@ -38,7 +38,7 @@ If you do not know how to install a Forge mod, then we recommended looking up "H
 #### Commands
 
 ```
-/rdp        - Opens the Modcore config
+/rpd        - Opens the Modcore config
      gui    - Opens a GUI so you can drag the display to your preferred location
      random - Chooses a random resource pack from your game and sets it
      reset  - Resets the random resource pack duplicates list
