@@ -15,10 +15,11 @@ buildscript {
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = project.version
+version = project.modVersion
 group= project.modGroup
-archivesBaseName = project.archivesBaseName
+archivesBaseName = project.modBaseName
 sourceCompatibility = targetCompatibility = 1.8
+compileJava.options.encoding = 'UTF-8'
 
 minecraft {
     version = project.forgeVersion
