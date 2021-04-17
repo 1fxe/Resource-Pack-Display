@@ -71,4 +71,11 @@ public class GUI extends GuiScreen {
         super.mouseReleased(mouseX, mouseY, state);
         this.dragging = false;
     }
+
+    @Override
+    public void onGuiClosed() {
+        super.onGuiClosed();
+        Config.INSTANCE.markDirty();
+        Config.INSTANCE.writeData();
+    }
 }
