@@ -33,7 +33,7 @@ public class Command extends CommandBase {
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+    public void processCommand(ICommandSender sender, String[] args) {
         if (args.length == 0) {
             ModCore.getInstance().getGuiHandler().open(ResourcePackDisplay.INSTANCE.getConfig().gui());
         } else if (args.length == 1) {

@@ -80,6 +80,11 @@ public class Config extends Vigilant {
         category = "GUI")
     public static boolean hasPadding;
 
+    @Property(type = PropertyType.SWITCH, name = "Enable text shadow", category = "GUI")
+    public static boolean hasTextShadow = true;
+
+    @Property(type = PropertyType.SWITCH, name = "Show in GUIs", category = "GUI")
+    public static boolean showInGui;
 
     @Property(
         type = PropertyType.SWITCH, name = "Random Pack Notification",

@@ -9,9 +9,10 @@
     "updateUrl": "",
     "authorList": [
       "1fxe",
-      "Sk1er LLC"
+      "Sk1er LLC",
+      "Wyvest"
     ],
-    "credits": "Sk1er LLC team for making all this happen",
+    "credits": "Sk1er LLC team for making all this happen, and Wyvest for Text Shadow, showing HUD in GUI, and bug fixes",
     "logoFile": "",
     "screenshots": [],
     "dependencies": []

@@ -24,6 +24,7 @@
 
 package dev.fxe.mods.resourcepackdisplay.ui;
 
+import dev.fxe.mods.resourcepackdisplay.ResourcePackDisplay;
 import dev.fxe.mods.resourcepackdisplay.data.Config;
 import net.minecraft.client.gui.GuiScreen;
 
@@ -71,5 +72,12 @@ public class GUI extends GuiScreen {
     protected void mouseReleased(int mouseX, int mouseY, int state) {
         super.mouseReleased(mouseX, mouseY, state);
         this.dragging = false;
+    }
+
+    @Override
+    public void onGuiClosed() {
+        super.onGuiClosed();
+        ResourcePackDisplay.INSTANCE.getConfig().markDirty();
+        ResourcePackDisplay.INSTANCE.getConfig().writeData();
     }
 }
