@@ -36,6 +36,7 @@ import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.resources.ResourcePackRepository;
 import net.minecraft.client.resources.data.PackMetadataSection;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -81,20 +82,20 @@ public class UI {
             height += 9;
             UI.instance.fontRenderer.drawString(currentPack.getPackName(),
                 offset + textPadding, y + padding + yOffset,
-                0xffffff);
+                0xffffff, Config.hasTextShadow);
         }
         yOffset += 9;
         if (Config.displayPackDescription) {
             height += 9;
             UI.instance.fontRenderer.drawString(UI.instance.getPackDescription(currentPack), offset + textPadding,
                 y + yOffset + padding,
-                0xffffff);
+                0xffffff, Config.hasTextShadow);
             yOffset += 11;
         }
         if (Config.displayPackSize) {
             height += 9;
             UI.instance.fontRenderer.drawString("Size: " + UI.instance.getPackSize(currentPack), offset + textPadding, y + yOffset + padding,
-                0xffffff);
+                0xffffff, Config.hasTextShadow);
         }
 
         if (Config.displayPackIcon) {
@@ -190,8 +191,8 @@ public class UI {
     }
 
     @SubscribeEvent
-    public void render(TickEvent.RenderTickEvent event) {
-        if (Config.isGuiEnabled && event.phase.equals(TickEvent.Phase.END) && Minecraft.getMinecraft().currentScreen == null) {
+    public void render(RenderGameOverlayEvent.Post event) {
+        if (Config.isGuiEnabled && event.type == RenderGameOverlayEvent.ElementType.ALL && (Minecraft.getMinecraft().currentScreen == null || Config.showInGui) && Minecraft.getMinecraft().thePlayer != null) {
             drawPackDisplay();
         }
     }
