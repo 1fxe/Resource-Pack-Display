@@ -14,6 +14,14 @@ A revamp of [Canelex's Pack Display Mod](https://www.youtube.com/watch?v=LeDNOdO
 
 ### Configuration
 
+- Ignore Overlays
+- Padding
+- Name  
+- Description
+- Size
+
+And more
+
 #### What is Resource Pack Display?
 
 Resource Pack Display allows you to display information about your current resource pack. <br/>

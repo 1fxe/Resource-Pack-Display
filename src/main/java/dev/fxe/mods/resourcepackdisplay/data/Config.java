@@ -36,54 +36,54 @@ import java.io.File;
 public class Config extends Vigilant {
 
     @Property(
-        type = PropertyType.SWITCH, name = "Enable Gui",
-        description = "Resource pack display gui", category = "GUI"
+        type = PropertyType.SWITCH, name = "Enable HUD",
+        description = "Resource pack display gui", category = "HUD"
     )
     public static boolean isGuiEnabled;
 
     @Property(
         type = PropertyType.SWITCH, name = "Display Pack background",
-        category = "GUI"
+        category = "HUD"
     )
     public static boolean displayBackground;
 
     @Property(
         type = PropertyType.SWITCH, name = "Display Pack Icon",
-        category = "GUI"
+        category = "HUD"
     )
     public static boolean displayPackIcon;
 
     @Property(
-        type = PropertyType.SWITCH, name = "Rounded Icon",
-        description = "TODO: Makes the icon rounded", category = "GUI"
+        type = PropertyType.SWITCH, name = "Ignore overlay pack",
+        category = "HUD"
     )
-    public static boolean roundIcon;
+    public static boolean ignoreOverlay = true;
 
     @Property(
         type = PropertyType.SWITCH, name = "Display Pack Name",
-        category = "GUI")
+        category = "HUD")
     public static boolean displayPackName;
 
 
     @Property(
         type = PropertyType.SWITCH, name = "Display Pack Description",
-        category = "GUI")
+        category = "HUD")
     public static boolean displayPackDescription;
 
     @Property(
         type = PropertyType.SWITCH, name = "Display Pack Size",
-        category = "GUI")
+        category = "HUD")
     public static boolean displayPackSize;
 
     @Property(
         type = PropertyType.SWITCH, name = "Pad the sides",
-        category = "GUI")
+        category = "HUD")
     public static boolean hasPadding;
 
-    @Property(type = PropertyType.SWITCH, name = "Enable text shadow", category = "GUI")
+    @Property(type = PropertyType.SWITCH, name = "Enable text shadow", category = "HUD")
     public static boolean hasTextShadow = true;
 
-    @Property(type = PropertyType.SWITCH, name = "Show in GUIs", category = "GUI")
+    @Property(type = PropertyType.SWITCH, name = "Show in GUIs", category = "HUD")
     public static boolean showInGui;
 
     @Property(
@@ -101,10 +101,10 @@ public class Config extends Vigilant {
         min = 500, max = 2000, category = "Extra")
     public static int notifDelay = 1000;
 
-    @Property(type = PropertyType.NUMBER, name = "x", category = "GUI", hidden = true)
+    @Property(type = PropertyType.NUMBER, name = "x", category = "HUD", hidden = true)
     public static int x = 0;
 
-    @Property(type = PropertyType.NUMBER, name = "y", category = "GUI", hidden = true)
+    @Property(type = PropertyType.NUMBER, name = "y", category = "HUD", hidden = true)
     public static int y = 0;
 
     public Config() {
