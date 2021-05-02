@@ -104,11 +104,11 @@ public class Config extends Vigilant {
     @Property(type = PropertyType.NUMBER, name = "x", category = "GUI", hidden = true)
     public static int x = 0;
 
-    @Property(type = PropertyType.NUMBER, name = "x", category = "GUI", hidden = true)
+    @Property(type = PropertyType.NUMBER, name = "y", category = "GUI", hidden = true)
     public static int y = 0;
 
     public Config() {
-        super(new File("./config/rdp.toml"));
+        super(new File("./config/rpd.toml"));
         initialize();
     }
 }
