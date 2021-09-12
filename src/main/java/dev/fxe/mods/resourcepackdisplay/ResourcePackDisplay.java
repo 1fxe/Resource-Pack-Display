@@ -24,15 +24,15 @@
 
 package dev.fxe.mods.resourcepackdisplay;
 
-import club.sk1er.mods.core.gui.notification.Notifications;
-import club.sk1er.mods.core.universal.ChatColor;
-import club.sk1er.mods.core.util.MinecraftUtils;
-import club.sk1er.mods.core.util.Multithreading;
+import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ListenableFuture;
-import dev.fxe.mods.resourcepackdisplay.commands.Command;
+import com.google.common.util.concurrent.MoreExecutors;
+import dev.fxe.mods.resourcepackdisplay.commands.RPDCommand;
 import dev.fxe.mods.resourcepackdisplay.data.Config;
-import dev.fxe.mods.resourcepackdisplay.modcore.ModCoreInstaller;
-import dev.fxe.mods.resourcepackdisplay.ui.UI;
+import dev.fxe.mods.resourcepackdisplay.ui.HUD;
+import gg.essential.api.EssentialAPI;
+import gg.essential.api.utils.Multithreading;
+import gg.essential.universal.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.ResourcePackRepository;
 import net.minecraft.event.ClickEvent;
@@ -40,7 +40,6 @@ import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -53,10 +52,9 @@ import java.util.Random;
 
 @Mod(modid = ResourcePackDisplay.MOD_ID, name = ResourcePackDisplay.MOD_NAME, version = ResourcePackDisplay.VERSION)
 public class ResourcePackDisplay {
-
     public static final String MOD_ID = "resource_pack_display";
     public static final String MOD_NAME = "Resource Pack Display";
-    public static final String VERSION = "1.4-Beta";
+    public static final String VERSION = "1.0";
     @Mod.Instance(MOD_ID)
     public static ResourcePackDisplay INSTANCE;
     public final HashSet<ResourcePackRepository.Entry> randomPacks = new HashSet<>();
@@ -66,11 +64,10 @@ public class ResourcePackDisplay {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        ModCoreInstaller.initializeModCore(Minecraft.getMinecraft().mcDataDir);
         this.config.preload();
 
-        ClientCommandHandler.instance.registerCommand(new Command());
-        MinecraftForge.EVENT_BUS.register(new UI());
+        new RPDCommand().register();
+        MinecraftForge.EVENT_BUS.register(new HUD());
     }
 
 
@@ -79,8 +76,8 @@ public class ResourcePackDisplay {
     }
 
     public void sendMessage(String message) {
-        MinecraftUtils.sendMessage(ChatColor.BLUE + "[RPD] ",
-            ChatColor.translateAlternateColorCodes('&', message));
+        EssentialAPI.getMinecraftUtil().sendMessage(ChatColor.BLUE + "[RPD] ",
+            ChatColor.Companion.translateAlternateColorCodes('&', message));
     }
 
     public void selectRandomPack() {
@@ -89,24 +86,29 @@ public class ResourcePackDisplay {
         final ResourcePackRepository.Entry entry = this.randomPack();
         final String packName = entry.getResourcePackName();
         if (this.randomPacks.contains(entry)) {
-            Notifications.INSTANCE.pushNotification(MOD_NAME, EnumChatFormatting.RED + "Duplicate pack selected: " + EnumChatFormatting.RESET+ packName);
+            EssentialAPI.getNotifications().push(MOD_NAME, EnumChatFormatting.RED + "Duplicate pack selected: " + EnumChatFormatting.RESET+ packName);
             sendRandomPrompt();
         } else if (entry.func_183027_f() != 1) {
-            Notifications.INSTANCE.pushNotification(MOD_NAME,
+            EssentialAPI.getNotifications().push(MOD_NAME,
                 EnumChatFormatting.RED + "Resource pack is not compatible! " + EnumChatFormatting.RESET + packName);
             sendRandomPrompt();
         } else {
             this.randomPacks.add(entry);
             final List<ResourcePackRepository.Entry> resourcePackListEntryList = new ArrayList<>();
             resourcePackListEntryList.add(entry);
+            if (Config.retainOverlay) {
+                if (!(mc.getResourcePackRepository().getRepositoryEntries().size() - 1 <= 0)) {
+                    ArrayList<ResourcePackRepository.Entry> list = Lists.newArrayList(mc.getResourcePackRepository().getRepositoryEntries());
+                    list.remove(0);
+                    resourcePackListEntryList.addAll(list);
+                }
+            }
             this.updatePack(resourcePackListEntryList);
 
             mc.gameSettings.resourcePacks.add(entry.getResourcePackName());
             mc.gameSettings.saveOptions();
-            mc.gameSettings.resourcePacks.clear();
             ListenableFuture<Object> future = mc.scheduleResourcesRefresh();
-            Multithreading.runAsync(() -> {
-                while (!future.isDone()) ;
+            Multithreading.runAsync(() -> future.addListener(() -> {
                 long delay = Config.notifDelay;
                 try {
                     Thread.sleep(delay);
@@ -115,12 +117,12 @@ public class ResourcePackDisplay {
                 long end = System.currentTimeMillis();
                 String msg = "Minecraft took " + ((end - delay) - start) / 1000 + "s to load " + packName;
                 if (Config.notify) {
-                    Notifications.INSTANCE.pushNotification(MOD_NAME, msg);
+                    EssentialAPI.getNotifications().push(MOD_NAME, msg);
                 }
                 if (Config.chatNotification) {
                     sendMessage(msg);
                 }
-            });
+            }, MoreExecutors.sameThreadExecutor()));
         }
     }
 
@@ -143,7 +145,7 @@ public class ResourcePackDisplay {
         childTwo.setChatStyle(chatStyleTwo);
         text.appendSibling(childComponent);
         text.appendSibling(childTwo);
-        MinecraftUtils.sendMessage(text);
+        mc.thePlayer.addChatMessage(text);
     }
 
     private void updatePack(final List<ResourcePackRepository.Entry> resourcePackListEntryList) {

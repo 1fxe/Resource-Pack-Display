@@ -32,7 +32,7 @@ It might look something like this:
 <details>
   <summary>Click here to see a another example</summary>
 
-![Example](.github/rdp.png)
+![Example](.github/rpd.png)
 
 </details>
 
@@ -47,7 +47,7 @@ If you do not know how to install a Forge mod, then we recommended looking up "H
 
 ```
 /rpd        - Opens the Modcore config
-     gui    - Opens a GUI so you can drag the display to your preferred location
+     gui / hud    - Opens a GUI so you can drag the display to your preferred location
      random - Chooses a random resource pack from your game and sets it
      reset  - Resets the random resource pack duplicates list
      show   - Displays all randomly loadded resource packs
