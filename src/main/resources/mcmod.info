@@ -2,17 +2,16 @@
   {
     "modid": "resource_pack_display",
     "name": "Resource Pack Display",
-    "description": "Display resource pack",
+    "description": "Display your resource pack",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "url": "",
     "updateUrl": "",
     "authorList": [
       "1fxe",
-      "Sk1er LLC",
       "Wyvest"
     ],
-    "credits": "Sk1er LLC, Wyvest bug fixes + features",
+    "credits": "Wyvest, for bug fixes + features",
     "logoFile": "",
     "screenshots": [],
     "dependencies": []

@@ -24,11 +24,14 @@
 
 package dev.fxe.mods.resourcepackdisplay.data;
 
-import club.sk1er.vigilance.Vigilant;
-import club.sk1er.vigilance.data.Property;
-import club.sk1er.vigilance.data.PropertyType;
+
+import dev.fxe.mods.resourcepackdisplay.ui.HUD;
+import gg.essential.vigilance.Vigilant;
+import gg.essential.vigilance.data.Property;
+import gg.essential.vigilance.data.PropertyType;
 
 import java.io.File;
+import java.util.function.Consumer;
 
 /**
  * @author Filip
@@ -36,69 +39,73 @@ import java.io.File;
 public class Config extends Vigilant {
 
     @Property(
-        type = PropertyType.SWITCH, name = "Enable HUD",
-        description = "Resource pack display gui", category = "HUD"
+            type = PropertyType.SWITCH, name = "Enable HUD",
+            category = "HUD"
     )
-    public static boolean isGuiEnabled;
+    public static boolean hudEnabled = true;
 
     @Property(
-        type = PropertyType.SWITCH, name = "Display Pack background",
-        category = "HUD"
+            type = PropertyType.SWITCH, name = "Display Pack Background",
+            category = "HUD"
     )
-    public static boolean displayBackground;
+    public static boolean displayBackground = true;
 
     @Property(
-        type = PropertyType.SWITCH, name = "Display Pack Icon",
-        category = "HUD"
+            type = PropertyType.SWITCH, name = "Display Pack Icon",
+            category = "HUD"
     )
-    public static boolean displayPackIcon;
+    public static boolean displayPackIcon = true;
 
     @Property(
-        type = PropertyType.SWITCH, name = "Ignore overlay pack",
-        category = "HUD"
+            type = PropertyType.SWITCH, name = "Ignore Overlay Pack",
+            category = "HUD"
     )
     public static boolean ignoreOverlay = true;
 
     @Property(
-        type = PropertyType.SWITCH, name = "Display Pack Name",
-        category = "HUD")
-    public static boolean displayPackName;
+            type = PropertyType.SWITCH, name = "Display Pack Name",
+            category = "HUD")
+    public static boolean displayPackName = true;
 
 
     @Property(
-        type = PropertyType.SWITCH, name = "Display Pack Description",
-        category = "HUD")
-    public static boolean displayPackDescription;
+            type = PropertyType.SWITCH, name = "Display Pack Description",
+            category = "HUD")
+    public static boolean displayPackDescription = true;
 
     @Property(
-        type = PropertyType.SWITCH, name = "Display Pack Size",
-        category = "HUD")
+            type = PropertyType.SWITCH, name = "Display Pack Size",
+            category = "HUD")
     public static boolean displayPackSize;
 
     @Property(
-        type = PropertyType.SWITCH, name = "Pad the sides",
-        category = "HUD")
-    public static boolean hasPadding;
+            type = PropertyType.SWITCH, name = "Pad the Sides",
+            category = "HUD")
+    public static boolean hasPadding = true;
 
-    @Property(type = PropertyType.SWITCH, name = "Enable text shadow", category = "HUD")
+    @Property(type = PropertyType.SWITCH, name = "Enable Text Shadow", category = "HUD")
     public static boolean hasTextShadow = true;
 
     @Property(type = PropertyType.SWITCH, name = "Show in GUIs", category = "HUD")
     public static boolean showInGui;
 
     @Property(
-        type = PropertyType.SWITCH, name = "Random Pack Notification",
-        category = "Extra")
+            type = PropertyType.SWITCH, name = "Random Pack Notification",
+            category = "Extra")
     public static boolean notify = true;
 
+    @Property(type = PropertyType.SWITCH, name = "Keep Pack Overlay", description = "Keep everything except the bottom pack when running /rpd random.",
+    category = "Extra")
+    public static boolean retainOverlay = true;
+
     @Property(
-        type = PropertyType.SWITCH, name = "Random Pack Chat message Notification",
-        category = "Extra")
+            type = PropertyType.SWITCH, name = "Random Pack Chat Message Notification",
+            category = "Extra")
     public static boolean chatNotification = false;
 
     @Property(
-        type = PropertyType.SLIDER, name = "Notification Delay",
-        min = 500, max = 2000, category = "Extra")
+            type = PropertyType.SLIDER, name = "Notification Delay",
+            min = 500, max = 2000, category = "Extra")
     public static int notifDelay = 1000;
 
     @Property(type = PropertyType.NUMBER, name = "x", category = "HUD", hidden = true)
@@ -110,5 +117,6 @@ public class Config extends Vigilant {
     public Config() {
         super(new File("./config/rpd.toml"));
         initialize();
+        registerListener("ignoreOverlay", (Consumer<Boolean>) aBoolean -> HUD.instance.handlePackChanging(aBoolean));
     }
 }
